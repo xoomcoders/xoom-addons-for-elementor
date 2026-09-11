@@ -1,0 +1,28 @@
+/**
+ * Reading progress indicator.
+ */
+
+.xoom-reading-progress {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	z-index: 9999;
+	background: rgba(0, 0, 0, 0.06);
+	pointer-events: none;
+}
+
+.xoom-reading-progress__bar {
+	display: block;
+	width: 0;
+	height: 100%;
+	background: #5b4bff;
+	transition: width 0.1s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.xoom-reading-progress__bar {
+		transition: none;
+	}
+}

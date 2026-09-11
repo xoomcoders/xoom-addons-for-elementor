@@ -1,0 +1,981 @@
+/**
+ * Xoom Addons — admin dashboard styles.
+ *
+ * Every rule is scoped to .xoom-shell so the plugin can never leak styles
+ * into the rest of wp-admin.
+ */
+
+.xoom-shell,
+.xoom-shell * {
+	box-sizing: border-box;
+}
+
+.xoom-shell {
+	--xoom-surface: #ffffff;
+	--xoom-canvas: #f6f7fb;
+	--xoom-border: #e4e7ef;
+	--xoom-border-strong: #d3d8e6;
+	--xoom-text: #1c2233;
+	--xoom-muted: #616b83;
+	--xoom-primary: #5b4bff;
+	--xoom-primary-dark: #4536d9;
+	--xoom-primary-soft: #eeecff;
+	--xoom-success: #12a150;
+	--xoom-success-soft: #e6f6ec;
+	--xoom-warning: #9a6200;
+	--xoom-danger: #d63638;
+	--xoom-radius: 14px;
+	--xoom-radius-sm: 10px;
+	--xoom-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px -14px rgba(16, 24, 40, 0.18);
+	--xoom-shadow-hover: 0 2px 6px rgba(16, 24, 40, 0.06), 0 18px 34px -18px rgba(16, 24, 40, 0.26);
+
+	max-width: 1280px;
+	margin: 8px 20px 48px 0;
+	color: var(--xoom-text);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.xoom-shell :focus-visible {
+	outline: 2px solid var(--xoom-primary);
+	outline-offset: 2px;
+	border-radius: 6px;
+}
+
+/* ---------------------------------------------------------------- Top bar */
+
+.xoom-topbar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 18px;
+	padding: 14px 18px;
+	background: var(--xoom-surface);
+	border: 1px solid var(--xoom-border);
+	border-radius: var(--xoom-radius);
+	box-shadow: var(--xoom-shadow);
+}
+
+.xoom-brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+}
+
+.xoom-brand__mark {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 11px;
+	color: var(--xoom-primary-dark);
+	background: var(--xoom-primary-soft);
+}
+
+.xoom-brand__mark svg {
+	width: 22px;
+	height: 22px;
+}
+
+.xoom-brand__text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.xoom-brand__name {
+	font-size: 15px;
+	font-weight: 650;
+	letter-spacing: -0.01em;
+}
+
+.xoom-brand__meta {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	color: var(--xoom-muted);
+}
+
+.xoom-brand__sep {
+	opacity: 0.6;
+}
+
+
+.xoom-edition {
+	font-weight: 600;
+}
+
+.xoom-edition--free--pro {
+	color: var(--xoom-warning);
+}
+
+.xoom-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.xoom-nav__link {
+	padding: 8px 14px;
+	border-radius: var(--xoom-radius-sm);
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--xoom-muted);
+	text-decoration: none;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.xoom-nav__link:hover {
+	background: #f2f3f8;
+	color: var(--xoom-text);
+}
+
+.xoom-nav__link.is-active {
+	background: var(--xoom-primary-soft);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-topbar__status {
+	margin-left: auto;
+}
+
+/* ------------------------------------------------------------- Toast pills */
+
+.xoom-toast {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 14px;
+	border-radius: 999px;
+	font-size: 12.5px;
+	font-weight: 600;
+}
+
+.xoom-toast--success {
+	background: var(--xoom-success-soft);
+	color: #0b6b36;
+}
+
+.xoom-toast--error {
+	background: #fdeaea;
+	color: #8a1f22;
+}
+
+.xoom-toast--busy {
+	background: #f2f3f8;
+	color: var(--xoom-muted);
+}
+
+/* ---------------------------------------------------------------- Content */
+
+.xoom-content {
+	display: block;
+	margin-top: 20px;
+}
+
+.xoom-hero {
+	position: relative;
+	overflow: hidden;
+	padding: 34px 32px;
+	border-radius: var(--xoom-radius);
+	color: #ffffff;
+	background: linear-gradient(135deg, #241a63 0%, #4b3bd6 58%, #6b5cff 100%);
+	box-shadow: var(--xoom-shadow);
+}
+
+.xoom-hero::after {
+	content: "";
+	position: absolute;
+	top: -60%;
+	right: -10%;
+	width: 380px;
+	height: 380px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+	pointer-events: none;
+}
+
+.xoom-hero__text {
+	position: relative;
+	max-width: 620px;
+}
+
+.xoom-hero__eyebrow {
+	margin: 0 0 8px;
+	font-size: 11.5px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	opacity: 0.75;
+}
+
+.xoom-hero__title {
+	margin: 0 0 10px;
+	font-size: 26px;
+	line-height: 1.2;
+	font-weight: 650;
+	letter-spacing: -0.02em;
+	color: #ffffff;
+}
+
+.xoom-hero__desc {
+	margin: 0 0 20px;
+	font-size: 14px;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.82);
+}
+
+.xoom-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.xoom-hero .xoom-btn--primary {
+	background: #ffffff;
+	color: #2a1f7a;
+}
+
+.xoom-hero .xoom-btn--primary:hover {
+	background: #f0eeff;
+	color: #2a1f7a;
+}
+
+.xoom-hero .xoom-btn--ghost {
+	background: rgba(255, 255, 255, 0.14);
+	border-color: rgba(255, 255, 255, 0.4);
+	color: #ffffff;
+}
+
+.xoom-hero .xoom-btn--ghost:hover {
+	background: rgba(255, 255, 255, 0.24);
+	border-color: #ffffff;
+	color: #ffffff;
+}
+
+/* ------------------------------------------------------------------ Stats */
+
+.xoom-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+	gap: 16px;
+	margin-top: 20px;
+}
+
+.xoom-stat {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 18px 20px;
+	background: var(--xoom-surface);
+	border: 1px solid var(--xoom-border);
+	border-radius: var(--xoom-radius);
+	box-shadow: var(--xoom-shadow);
+}
+
+.xoom-stat__label {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--xoom-muted);
+}
+
+.xoom-stat__value {
+	font-size: 30px;
+	font-weight: 650;
+	letter-spacing: -0.02em;
+	line-height: 1.1;
+	color: var(--xoom-text);
+}
+
+.xoom-stat__value--text {
+	font-size: 20px;
+}
+
+.xoom-stat__meta {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 12.5px;
+	color: var(--xoom-muted);
+}
+
+.xoom-stat__sep {
+	opacity: 0.5;
+}
+
+.xoom-status-dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #c3c7d2;
+	flex: 0 0 auto;
+}
+
+.xoom-status-dot.is-ok {
+	background: var(--xoom-success);
+}
+
+.xoom-status-dot.is-bad {
+	background: var(--xoom-danger);
+}
+
+/* ---------------------------------------------------------------- Layout */
+
+.xoom-columns {
+	display: grid;
+	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+	gap: 20px;
+	margin-top: 20px;
+}
+
+.xoom-panel {
+	padding: 20px 22px;
+	background: var(--xoom-surface);
+	border: 1px solid var(--xoom-border);
+	border-radius: var(--xoom-radius);
+	box-shadow: var(--xoom-shadow);
+	margin-top: 20px;
+}
+
+.xoom-columns .xoom-panel {
+	margin-top: 0;
+}
+
+.xoom-panel__head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.xoom-panel__title {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 650;
+	letter-spacing: -0.01em;
+	color: var(--xoom-text);
+}
+
+.xoom-panel__subtitle {
+	margin: 4px 0 0;
+	font-size: 13px;
+	color: var(--xoom-muted);
+}
+
+/* ------------------------------------------------------- Upgrade promo */
+
+.xoom-promo {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 18px;
+	background: linear-gradient(135deg, #f7f5ff 0%, #ffffff 62%);
+	border-color: #ddd8ff;
+}
+
+.xoom-promo__text {
+	max-width: 60ch;
+}
+
+/* --------------------------------------------------------------- Toolbar */
+
+.xoom-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin: 18px 0 12px;
+}
+
+.xoom-toolbar__search {
+	position: relative;
+	flex: 1 1 260px;
+	max-width: 380px;
+}
+
+.xoom-toolbar__search .dashicons {
+	position: absolute;
+	top: 50%;
+	left: 11px;
+	transform: translateY(-50%);
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+	color: var(--xoom-muted);
+	pointer-events: none;
+}
+
+.xoom-toolbar__segments {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.xoom-toolbar__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.xoom-segmented {
+	display: inline-flex;
+	gap: 2px;
+	padding: 3px;
+	background: #f1f2f7;
+	border-radius: var(--xoom-radius-sm);
+}
+
+.xoom-segmented__btn {
+	border: 0;
+	background: transparent;
+	padding: 6px 12px;
+	border-radius: 7px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--xoom-muted);
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.xoom-segmented__btn:hover {
+	color: var(--xoom-text);
+}
+
+.xoom-segmented__btn.is-active {
+	background: var(--xoom-surface);
+	color: var(--xoom-text);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.14);
+}
+
+.xoom-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding-top: 12px;
+	border-top: 1px solid var(--xoom-border);
+}
+
+.xoom-filter-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.xoom-filter-chip {
+	border: 1px solid var(--xoom-border-strong);
+	background: var(--xoom-surface);
+	border-radius: 999px;
+	padding: 6px 14px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--xoom-muted);
+	cursor: pointer;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.xoom-filter-chip:hover {
+	border-color: var(--xoom-primary);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-filter-chip.is-active {
+	background: var(--xoom-primary-soft);
+	border-color: #c9c2ff;
+	color: var(--xoom-primary-dark);
+	font-weight: 600;
+}
+
+.xoom-results {
+	margin: 0;
+	font-size: 12.5px;
+	color: var(--xoom-muted);
+}
+
+/* ------------------------------------------------------------ Components */
+
+.xoom-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+	gap: 16px;
+	margin-top: 16px;
+}
+
+.xoom-card {
+	background: var(--xoom-surface);
+	border: 1px solid var(--xoom-border);
+	border-radius: var(--xoom-radius);
+	padding: 16px;
+	transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+
+.xoom-card:hover {
+	transform: translateY(-2px);
+	border-color: var(--xoom-border-strong);
+	box-shadow: var(--xoom-shadow-hover);
+}
+
+.xoom-component {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.xoom-component.is-disabled {
+	background: #fcfcfe;
+}
+
+.xoom-component.is-hidden {
+	display: none;
+}
+
+.xoom-component__top {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.xoom-component__icon {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 11px;
+	background: var(--xoom-primary-soft);
+	color: var(--xoom-primary-dark);
+	flex: 0 0 auto;
+}
+
+.xoom-component__icon .dashicons {
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+}
+
+.xoom-component__top .xoom-switch {
+	margin-left: auto;
+}
+
+.xoom-component__title {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--xoom-text);
+}
+
+.xoom-component__desc {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--xoom-muted);
+}
+
+.xoom-component__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: auto;
+}
+
+.xoom-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.xoom-chip {
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: #f2f3f8;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--xoom-muted);
+}
+
+.xoom-badge--pro {
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #ffe6b0, #ffd37a);
+	color: #7a4b00;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+
+
+.xoom-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	padding: 48px 20px;
+	text-align: center;
+	color: var(--xoom-muted);
+}
+
+.xoom-empty[hidden] {
+	display: none;
+}
+
+.xoom-empty .dashicons {
+	width: 28px;
+	height: 28px;
+	font-size: 28px;
+	opacity: 0.55;
+}
+
+/* ---------------------------------------------------------------- Switch */
+
+.xoom-switch {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.xoom-switch__input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+}
+
+.xoom-switch__track {
+	position: relative;
+	display: inline-block;
+	width: 42px;
+	height: 24px;
+	border-radius: 999px;
+	background: #d7dae4;
+	transition: background 0.18s ease;
+}
+
+.xoom-switch__thumb {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #ffffff;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.3);
+	transition: transform 0.18s ease;
+}
+
+.xoom-switch__input:checked + .xoom-switch__track {
+	background: var(--xoom-success);
+}
+
+.xoom-switch__input:checked + .xoom-switch__track .xoom-switch__thumb {
+	transform: translateX(18px);
+}
+
+.xoom-switch__input:focus-visible + .xoom-switch__track {
+	outline: 2px solid var(--xoom-primary);
+	outline-offset: 2px;
+}
+
+.xoom-switch.is-locked {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+/* --------------------------------------------------------------- Buttons */
+
+.xoom-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 8px 16px;
+	border: 1px solid transparent;
+	border-radius: var(--xoom-radius-sm);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.4;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.xoom-btn--primary {
+	background: var(--xoom-primary);
+	border-color: var(--xoom-primary);
+	color: #ffffff;
+}
+
+.xoom-btn--primary:hover {
+	background: var(--xoom-primary-dark);
+	border-color: var(--xoom-primary-dark);
+	color: #ffffff;
+}
+
+.xoom-btn--ghost {
+	background: var(--xoom-surface);
+	border-color: var(--xoom-border-strong);
+	color: var(--xoom-text);
+}
+
+.xoom-btn--ghost:hover {
+	border-color: var(--xoom-primary);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-btn.is-busy,
+.xoom-btn[disabled] {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- Inputs */
+
+.xoom-shell .xoom-input {
+	width: 100%;
+	padding: 9px 12px;
+	border: 1px solid var(--xoom-border-strong);
+	border-radius: var(--xoom-radius-sm);
+	background: var(--xoom-surface);
+	color: var(--xoom-text);
+	font-size: 13.5px;
+	line-height: 1.4;
+	box-shadow: none;
+}
+
+.xoom-shell .xoom-input:focus {
+	border-color: var(--xoom-primary);
+	box-shadow: 0 0 0 3px rgba(91, 75, 255, 0.14);
+	outline: none;
+}
+
+.xoom-shell .xoom-input--search {
+	padding-left: 36px;
+}
+
+/* ------------------------------------------------------------------ Tabs */
+
+.xoom-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin: 0 0 4px;
+	border-bottom: 1px solid var(--xoom-border);
+}
+
+.xoom-tab {
+	margin-bottom: -1px;
+	padding: 10px 14px;
+	border: 0;
+	border-bottom: 2px solid transparent;
+	background: transparent;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--xoom-muted);
+	cursor: pointer;
+}
+
+.xoom-tab:hover {
+	color: var(--xoom-text);
+}
+
+.xoom-tab.is-active {
+	color: var(--xoom-primary-dark);
+	border-bottom-color: var(--xoom-primary);
+}
+
+.xoom-tabpanel[hidden] {
+	display: none;
+}
+
+/* -------------------------------------------------------------- Settings */
+
+.xoom-settings-list {
+	display: flex;
+	flex-direction: column;
+	margin-top: 8px;
+}
+
+.xoom-setting {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 18px 0;
+	border-bottom: 1px solid var(--xoom-border);
+}
+
+.xoom-setting:last-child {
+	border-bottom: 0;
+}
+
+.xoom-setting__label {
+	display: block;
+	margin-bottom: 4px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--xoom-text);
+}
+
+.xoom-setting__desc {
+	max-width: 62ch;
+	margin: 0;
+	font-size: 12.5px;
+	line-height: 1.6;
+	color: var(--xoom-muted);
+}
+
+.xoom-setting__control {
+	flex: 0 0 auto;
+	padding-top: 2px;
+}
+
+.xoom-form-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding-top: 20px;
+}
+
+/* --------------------------------------------------- Actions & status lists */
+
+.xoom-actions,
+.xoom-status-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.xoom-action {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 14px 0;
+	border-bottom: 1px solid var(--xoom-border);
+}
+
+.xoom-action:last-child {
+	border-bottom: 0;
+}
+
+.xoom-action__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.xoom-action__text strong {
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--xoom-text);
+}
+
+.xoom-action__text span {
+	font-size: 12.5px;
+	color: var(--xoom-muted);
+}
+
+.xoom-status-list li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 11px 0;
+	border-bottom: 1px solid var(--xoom-border);
+	font-size: 13px;
+	color: var(--xoom-muted);
+}
+
+.xoom-status-list li:last-child {
+	border-bottom: 0;
+}
+
+.xoom-status-list strong {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 600;
+	color: var(--xoom-text);
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 1100px) {
+	.xoom-columns {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 782px) {
+	.xoom-shell {
+		margin-right: 10px;
+	}
+
+	.xoom-hero {
+		padding: 26px 22px;
+	}
+
+	.xoom-hero__title {
+		font-size: 22px;
+	}
+
+	.xoom-topbar {
+		gap: 12px;
+	}
+
+	.xoom-topbar__status {
+		margin-left: 0;
+		order: 3;
+		width: 100%;
+	}
+
+	.xoom-setting {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.xoom-setting__control {
+		width: 100%;
+	}
+
+	.xoom-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.xoom-toolbar__search {
+		max-width: none;
+	}
+
+	.xoom-action {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.xoom-shell * {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}

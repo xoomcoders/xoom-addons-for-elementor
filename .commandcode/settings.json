@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(cp:*)",
+      "Shell(sed:*)",
+      "Shell(rm:*)",
+      "Shell(mkdir:*)",
+      "Shell(mv:*)",
+      "Shell(php harness-boot.php 2 >& 1)",
+      "Shell(cd \"/private/tmp/commandcode-501/-Users-Tushar-Local-Sites-plugin-dev-app-public-wp-content-plugins-xoom-addons-for-elementor/ed22693a-d640-4210-995b-3d91d2b066a9/scratchpad\" && for h in harness.php harness-views.php harness-boot.php harness-integration.php; do printf \"%-26s \" \"$h\"; out=$(php \"$h\" 2>&1); if echo \"$out\" | grep -q \"FAIL\"; then echo \"FAIL\"; echo \"$out\" | grep \"^FAIL\"; else echo \"$out\" | tail -2 | tr -d '\\n'; echo; fi; done)",
+      "Shell(set -e; F=\"/Users/Tushar/Local Sites/plugin-dev/app/public/wp-content/plugins/xoom-addons-for-elementor\"; P=\"/Users/Tushar/Local Sites/plugin-dev/app/public/wp-content/plugins/xoom-addons-pro\"; echo \"=== PHP LINT ===\"; for d in \"$F\" \"$P\"; do n=$(find \"$d\" -name \"*.php\" | wc -l | tr -d ' '); find \"$d\" -name \"*.php\" -print0 | xargs -0 -n1 php -l 2>&1 | grep -v \"No syntax errors\" || true; echo \"$(basename $d): $n php files parse\"; done; echo \"=== JS ===\"; node --check \"$F/assets/admin/js/admin.js\" && echo \"free admin.js OK\"; node --check \"$P/assets/admin/js/admin.js\" && echo \"pro admin.js OK\"; echo \"=== CSS BRACES ===\"; for f in \"$F/assets/admin/css/admin.css\" \"$F/assets/css/widgets.css\" \"$P/assets/admin/css/admin.css\" \"$P/assets/css/widgets.css\"; do o=$(grep -o '{' \"$f\" | wc -l | tr -d ' '); c=$(grep -o '}' \"$f\" | wc -l | tr -d ' '); printf \"%-46s open=%s close=%s %s\\n\" \"$(basename $(dirname $(dirname $f)))/$(basename $f)\" \"$o\" \"$c\" \"$([ \"$o\" = \"$c\" ] && echo OK || echo MISMATCH)\"; done)",
+      "Shell(cd \"/private/tmp/commandcode-501/-Users-Tushar-Local-Sites-plugin-dev-app-public-wp-content-plugins-xoom-addons-for-elementor/ed22693a-d640-4210-995b-3d91d2b066a9/scratchpad\" && echo \"=== ALL SUITES ===\" && total=0; for h in harness.php harness-views.php harness-boot.php harness-integration.php; do out=$(php \"$h\" 2>&1); line=$(echo \"$out\" | tail -2 | tr -d '\\n'); printf \"%-26s %s\\n\" \"$h\" \"$line\"; n=$(echo \"$line\" | grep -o '^[0-9]*'); total=$((total + n)); done; echo \"---------------------------\"; echo \"TOTAL CHECKS PASSED: $total\")",
+      "Shell(echo:*)",
+      "Shell(cd \"/private/tmp/commandcode-501/-Users-Tushar-Local-Sites-plugin-dev-app-public-wp-content-plugins-xoom-addons-for-elementor/ed22693a-d640-4210-995b-3d91d2b066a9/scratchpad\" && php harness-integration.php 2>&1 | grep -E \"^FAIL|Pro category|passed,\" ; echo \"=== ALL SUITES ===\"; total=0; for h in harness.php harness-views.php harness-boot.php harness-integration.php; do out=$(php \"$h\" 2>&1); line=$(echo \"$out\" | tail -2 | tr -d '\\n'); printf \"%-24s %s\\n\" \"$h\" \"$line\"; n=$(echo \"$line\" | grep -o '^[0-9]*'); total=$((total + n)); done; echo \"TOTAL: $total checks passed\")"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}
