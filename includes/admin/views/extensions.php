@@ -51,29 +51,25 @@ $show_package   = $has_pro;
 include __DIR__ . '/../partials/header.php';
 ?>
 
-<section class="xoom-panel">
-	<div class="xoom-panel__head">
-		<div>
-			<h2 class="xoom-panel__title"><?php esc_html_e( 'Extensions', 'xoom-addons-for-elementor' ); ?></h2>
-			<p class="xoom-panel__subtitle">
-				<?php
-				printf(
-					/* translators: 1: total extensions, 2: active extensions, 3: inactive extensions. */
-					esc_html__( '%1$d extensions available · %2$d active · %3$d inactive', 'xoom-addons-for-elementor' ),
-					(int) $counts['total'],
-					(int) $counts['active'],
-					(int) $counts['inactive']
-				);
-				?>
-			</p>
-		</div>
+<header class="xoom-page-head">
+	<div class="xoom-page-head__text">
+		<h1 class="xoom-page-title"><?php esc_html_e( 'Extensions', 'xoom-addons-for-elementor' ); ?></h1>
+		<p class="xoom-page-subtitle">
+			<?php
+			printf(
+				/* translators: 1: total extensions, 2: active extensions, 3: inactive extensions. */
+				esc_html__( '%1$d extensions available · %2$d active · %3$d inactive', 'xoom-addons-for-elementor' ),
+				(int) $counts['total'],
+				(int) $counts['active'],
+				(int) $counts['inactive']
+			);
+			?>
+		</p>
 	</div>
-
-	<?php
-	include __DIR__ . '/../partials/catalog-toolbar.php';
-	include __DIR__ . '/../partials/catalog-grid.php';
-	?>
-</section>
+</header>
 
 <?php
+include __DIR__ . '/../partials/catalog-toolbar.php';
+include __DIR__ . '/../partials/catalog-grid.php';
+
 include __DIR__ . '/../partials/footer.php';

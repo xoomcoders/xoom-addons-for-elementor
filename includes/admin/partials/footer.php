@@ -7,5 +7,6 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
+		</div>
 	</main>
 </div>

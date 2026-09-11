@@ -66,6 +66,13 @@ $tabs = array(
 include __DIR__ . '/../partials/header.php';
 ?>
 
+<header class="xoom-page-head">
+	<div class="xoom-page-head__text">
+		<h1 class="xoom-page-title"><?php esc_html_e( 'Settings', 'xoom-addons-for-elementor' ); ?></h1>
+		<p class="xoom-page-subtitle"><?php esc_html_e( 'Control how Xoom Addons behaves across this site.', 'xoom-addons-for-elementor' ); ?></p>
+	</div>
+</header>
+
 <section class="xoom-panel">
 	<div class="xoom-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Settings sections', 'xoom-addons-for-elementor' ); ?>">
 		<?php $is_first = true; ?>

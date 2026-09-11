@@ -1,39 +1,76 @@
 /**
  * Xoom Addons — admin dashboard styles.
  *
- * Every rule is scoped to .xoom-shell so the plugin can never leak styles
- * into the rest of wp-admin.
+ * Everything is scoped to .xoom-shell (plus a few body-class gated rules that
+ * let the plugin use the full wp-admin width) so the plugin can never leak
+ * styles into the rest of wp-admin.
  */
+
+/* ------------------------------------------------------ WordPress shell */
+
+body.xoom-addons-screen #wpcontent {
+	padding-left: 0;
+}
+
+body.xoom-addons-screen #wpbody-content {
+	background: #f5f6fb;
+}
+
+body.xoom-addons-screen #wpfooter {
+	padding-right: 24px;
+}
+
+body.xoom-addons-screen #wpfooter p {
+	color: #6b7288;
+}
 
 .xoom-shell,
 .xoom-shell * {
 	box-sizing: border-box;
 }
 
+/* ------------------------------------------------------------- Tokens */
+
 .xoom-shell {
+	--xoom-max: 1600px;
+
 	--xoom-surface: #ffffff;
-	--xoom-canvas: #f6f7fb;
-	--xoom-border: #e4e7ef;
-	--xoom-border-strong: #d3d8e6;
-	--xoom-text: #1c2233;
-	--xoom-muted: #616b83;
+	--xoom-surface-2: #fafbfe;
+	--xoom-canvas: #f5f6fb;
+
+	--xoom-border: #e6e8f0;
+	--xoom-border-strong: #d6d9e6;
+
+	--xoom-text: #171a2b;
+	--xoom-muted: #5f6780;
+	--xoom-faint: #8a92a8;
+
 	--xoom-primary: #5b4bff;
-	--xoom-primary-dark: #4536d9;
+	--xoom-primary-dark: #4331e0;
 	--xoom-primary-soft: #eeecff;
+	--xoom-primary-tint: #f7f6ff;
+
 	--xoom-success: #12a150;
-	--xoom-success-soft: #e6f6ec;
-	--xoom-warning: #9a6200;
+	--xoom-success-soft: #e7f7ee;
+	--xoom-warning: #a15c00;
 	--xoom-danger: #d63638;
+	--xoom-danger-soft: #fdecec;
+
+	--xoom-radius-lg: 18px;
 	--xoom-radius: 14px;
 	--xoom-radius-sm: 10px;
-	--xoom-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px -14px rgba(16, 24, 40, 0.18);
-	--xoom-shadow-hover: 0 2px 6px rgba(16, 24, 40, 0.06), 0 18px 34px -18px rgba(16, 24, 40, 0.26);
 
-	max-width: 1280px;
-	margin: 8px 20px 48px 0;
+	--xoom-shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.06);
+	--xoom-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 28px -20px rgba(16, 24, 40, 0.26);
+	--xoom-shadow-hover: 0 2px 6px rgba(16, 24, 40, 0.06), 0 22px 40px -22px rgba(43, 32, 120, 0.3);
+	--xoom-ring: 0 0 0 3px rgba(91, 75, 255, 0.16);
+
+	min-height: calc(100vh - 32px);
 	color: var(--xoom-text);
+	background: var(--xoom-canvas);
 	font-size: 14px;
-	line-height: 1.5;
+	line-height: 1.55;
+	-webkit-font-smoothing: antialiased;
 }
 
 .xoom-shell :focus-visible {
@@ -45,15 +82,39 @@
 /* ---------------------------------------------------------------- Top bar */
 
 .xoom-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background: rgba(255, 255, 255, 0.94);
+	backdrop-filter: saturate(180%) blur(10px);
+	-webkit-backdrop-filter: saturate(180%) blur(10px);
+	border-bottom: 1px solid var(--xoom-border);
+}
+
+body.admin-bar .xoom-topbar {
+	top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar .xoom-topbar {
+		top: 46px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	/* The admin bar becomes static and scrolls away at this size. */
+	body.admin-bar .xoom-topbar {
+		top: 0;
+	}
+}
+
+.xoom-topbar__inner {
 	display: flex;
 	align-items: center;
-	flex-wrap: wrap;
-	gap: 18px;
-	padding: 14px 18px;
-	background: var(--xoom-surface);
-	border: 1px solid var(--xoom-border);
-	border-radius: var(--xoom-radius);
-	box-shadow: var(--xoom-shadow);
+	gap: 20px;
+	max-width: var(--xoom-max);
+	margin: 0 auto;
+	padding: 12px clamp(16px, 3vw, 36px);
 }
 
 .xoom-brand {
@@ -61,33 +122,39 @@
 	align-items: center;
 	gap: 12px;
 	min-width: 0;
+	color: inherit;
+	text-decoration: none;
 }
 
 .xoom-brand__mark {
 	display: grid;
 	place-items: center;
-	width: 38px;
-	height: 38px;
-	border-radius: 11px;
-	color: var(--xoom-primary-dark);
-	background: var(--xoom-primary-soft);
+	width: 40px;
+	height: 40px;
+	flex: 0 0 auto;
+	border-radius: 12px;
+	color: #ffffff;
+	background: linear-gradient(150deg, #6a5cff, #4a37e0);
+	box-shadow: 0 6px 16px -8px rgba(74, 55, 224, 0.7);
 }
 
 .xoom-brand__mark svg {
-	width: 22px;
-	height: 22px;
+	width: 23px;
+	height: 23px;
 }
 
 .xoom-brand__text {
 	display: flex;
 	flex-direction: column;
 	min-width: 0;
+	line-height: 1.3;
 }
 
 .xoom-brand__name {
 	font-size: 15px;
-	font-weight: 650;
+	font-weight: 700;
 	letter-spacing: -0.01em;
+	color: var(--xoom-text);
 }
 
 .xoom-brand__meta {
@@ -95,13 +162,12 @@
 	align-items: center;
 	gap: 6px;
 	font-size: 12px;
-	color: var(--xoom-muted);
+	color: var(--xoom-faint);
 }
 
 .xoom-brand__sep {
 	opacity: 0.6;
 }
-
 
 .xoom-edition {
 	font-weight: 600;
@@ -115,30 +181,48 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px;
+	margin-left: 6px;
+	padding: 4px;
+	background: #f1f2f8;
+	border-radius: 12px;
 }
 
 .xoom-nav__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
 	padding: 8px 14px;
-	border-radius: var(--xoom-radius-sm);
+	border-radius: 9px;
 	font-size: 13.5px;
 	font-weight: 600;
 	color: var(--xoom-muted);
 	text-decoration: none;
-	transition: background 0.15s ease, color 0.15s ease;
+	transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.xoom-nav__link .dashicons {
+	width: 17px;
+	height: 17px;
+	font-size: 17px;
+	opacity: 0.85;
 }
 
 .xoom-nav__link:hover {
-	background: #f2f3f8;
+	background: rgba(255, 255, 255, 0.75);
 	color: var(--xoom-text);
 }
 
 .xoom-nav__link.is-active {
-	background: var(--xoom-primary-soft);
+	background: var(--xoom-surface);
 	color: var(--xoom-primary-dark);
+	box-shadow: var(--xoom-shadow-xs);
 }
 
 .xoom-topbar__status {
 	margin-left: auto;
+	display: flex;
+	align-items: center;
+	min-height: 32px;
 }
 
 /* ------------------------------------------------------------- Toast pills */
@@ -151,6 +235,7 @@
 	border-radius: 999px;
 	font-size: 12.5px;
 	font-weight: 600;
+	box-shadow: var(--xoom-shadow-xs);
 }
 
 .xoom-toast--success {
@@ -159,12 +244,12 @@
 }
 
 .xoom-toast--error {
-	background: #fdeaea;
+	background: var(--xoom-danger-soft);
 	color: #8a1f22;
 }
 
 .xoom-toast--busy {
-	background: #f2f3f8;
+	background: #f1f2f8;
 	color: var(--xoom-muted);
 }
 
@@ -172,148 +257,234 @@
 
 .xoom-content {
 	display: block;
-	margin-top: 20px;
 }
+
+.xoom-container {
+	max-width: var(--xoom-max);
+	margin: 0 auto;
+	padding: 28px clamp(16px, 3vw, 36px) 64px;
+}
+
+/* ------------------------------------------------------------- Page head */
+
+.xoom-page-head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 20px;
+	margin-bottom: 4px;
+}
+
+.xoom-page-head__text,
+.xoom-panel__titles,
+.xoom-setting__text,
+.xoom-promo__text {
+	min-width: 0;
+}
+
+.xoom-page-title {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.025em;
+	color: var(--xoom-text);
+}
+
+.xoom-page-subtitle {
+	margin: 6px 0 0;
+	font-size: 13.5px;
+	color: var(--xoom-muted);
+}
+
+/* ------------------------------------------------------------------ Hero */
 
 .xoom-hero {
 	position: relative;
 	overflow: hidden;
-	padding: 34px 32px;
-	border-radius: var(--xoom-radius);
-	color: #ffffff;
-	background: linear-gradient(135deg, #241a63 0%, #4b3bd6 58%, #6b5cff 100%);
+	margin-top: 20px;
+	padding: clamp(28px, 3.4vw, 44px) clamp(22px, 3.4vw, 44px);
+	border: 1px solid #e2dfff;
+	border-radius: var(--xoom-radius-lg);
+	background: var(--xoom-surface);
 	box-shadow: var(--xoom-shadow);
+}
+
+.xoom-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(760px 320px at 92% -40%, rgba(91, 75, 255, 0.13), rgba(91, 75, 255, 0) 70%);
+	pointer-events: none;
 }
 
 .xoom-hero::after {
 	content: "";
 	position: absolute;
-	top: -60%;
-	right: -10%;
-	width: 380px;
-	height: 380px;
-	border-radius: 50%;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
-	pointer-events: none;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 4px;
+	background: linear-gradient(180deg, var(--xoom-primary), #8b79ff);
 }
 
-.xoom-hero__text {
+.xoom-hero__body {
 	position: relative;
-	max-width: 620px;
+	max-width: 720px;
 }
 
 .xoom-hero__eyebrow {
-	margin: 0 0 8px;
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	margin: 0 0 14px;
 	font-size: 11.5px;
 	font-weight: 700;
-	letter-spacing: 0.12em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
-	opacity: 0.75;
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-hero__pulse {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--xoom-primary);
+	box-shadow: 0 0 0 4px rgba(91, 75, 255, 0.14);
 }
 
 .xoom-hero__title {
-	margin: 0 0 10px;
-	font-size: 26px;
-	line-height: 1.2;
-	font-weight: 650;
-	letter-spacing: -0.02em;
-	color: #ffffff;
+	margin: 0 0 12px;
+	font-size: clamp(24px, 3vw, 32px);
+	line-height: 1.16;
+	font-weight: 700;
+	letter-spacing: -0.025em;
+	color: var(--xoom-text);
 }
 
 .xoom-hero__desc {
-	margin: 0 0 20px;
-	font-size: 14px;
-	line-height: 1.6;
-	color: rgba(255, 255, 255, 0.82);
+	max-width: 66ch;
+	margin: 0 0 24px;
+	font-size: 15px;
+	line-height: 1.7;
+	color: var(--xoom-muted);
 }
 
 .xoom-hero__actions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 10px;
-}
-
-.xoom-hero .xoom-btn--primary {
-	background: #ffffff;
-	color: #2a1f7a;
-}
-
-.xoom-hero .xoom-btn--primary:hover {
-	background: #f0eeff;
-	color: #2a1f7a;
-}
-
-.xoom-hero .xoom-btn--ghost {
-	background: rgba(255, 255, 255, 0.14);
-	border-color: rgba(255, 255, 255, 0.4);
-	color: #ffffff;
-}
-
-.xoom-hero .xoom-btn--ghost:hover {
-	background: rgba(255, 255, 255, 0.24);
-	border-color: #ffffff;
-	color: #ffffff;
+	gap: 12px;
 }
 
 /* ------------------------------------------------------------------ Stats */
 
 .xoom-stats {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
-	gap: 16px;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 18px;
 	margin-top: 20px;
 }
 
 .xoom-stat {
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	padding: 18px 20px;
+	gap: 14px;
+	padding: 20px;
 	background: var(--xoom-surface);
 	border: 1px solid var(--xoom-border);
 	border-radius: var(--xoom-radius);
 	box-shadow: var(--xoom-shadow);
+	transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.xoom-stat:hover {
+	transform: translateY(-2px);
+	border-color: var(--xoom-border-strong);
+	box-shadow: var(--xoom-shadow-hover);
+}
+
+.xoom-stat__head {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+}
+
+.xoom-stat__icon {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	flex: 0 0 auto;
+	border-radius: 11px;
+	background: var(--xoom-primary-soft);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-stat__icon .dashicons {
+	width: 19px;
+	height: 19px;
+	font-size: 19px;
 }
 
 .xoom-stat__label {
-	font-size: 12px;
-	font-weight: 600;
-	letter-spacing: 0.04em;
+	font-size: 11.5px;
+	font-weight: 700;
+	letter-spacing: 0.07em;
 	text-transform: uppercase;
-	color: var(--xoom-muted);
+	color: var(--xoom-faint);
 }
 
 .xoom-stat__value {
-	font-size: 30px;
-	font-weight: 650;
-	letter-spacing: -0.02em;
-	line-height: 1.1;
+	font-size: 32px;
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	line-height: 1.05;
 	color: var(--xoom-text);
 }
 
 .xoom-stat__value--text {
-	font-size: 20px;
+	font-size: 19px;
+	letter-spacing: -0.01em;
 }
 
 .xoom-stat__meta {
 	display: flex;
 	align-items: center;
-	gap: 5px;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: auto;
 	font-size: 12.5px;
 	color: var(--xoom-muted);
 }
 
-.xoom-stat__sep {
-	opacity: 0.5;
+.xoom-stat__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 10px;
+	border-radius: 999px;
+	background: #f3f4f9;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--xoom-muted);
+}
+
+.xoom-stat__badge.is-ok {
+	background: var(--xoom-success-soft);
+	color: #0b6b36;
+}
+
+.xoom-stat__badge.is-bad {
+	background: var(--xoom-danger-soft);
+	color: #8a1f22;
 }
 
 .xoom-status-dot {
 	display: inline-block;
-	width: 8px;
-	height: 8px;
+	width: 7px;
+	height: 7px;
+	flex: 0 0 auto;
 	border-radius: 50%;
 	background: #c3c7d2;
-	flex: 0 0 auto;
 }
 
 .xoom-status-dot.is-ok {
@@ -328,18 +499,18 @@
 
 .xoom-columns {
 	display: grid;
-	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+	grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
 	gap: 20px;
 	margin-top: 20px;
 }
 
 .xoom-panel {
-	padding: 20px 22px;
+	margin-top: 20px;
+	padding: 22px 24px;
 	background: var(--xoom-surface);
 	border: 1px solid var(--xoom-border);
-	border-radius: var(--xoom-radius);
+	border-radius: var(--xoom-radius-lg);
 	box-shadow: var(--xoom-shadow);
-	margin-top: 20px;
 }
 
 .xoom-columns .xoom-panel {
@@ -354,37 +525,100 @@
 	flex-wrap: wrap;
 }
 
+.xoom-panel__heading {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.xoom-panel__icon {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	flex: 0 0 auto;
+	border-radius: 10px;
+	background: var(--xoom-primary-soft);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-panel__icon .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+}
+
 .xoom-panel__title {
 	margin: 0;
-	font-size: 17px;
-	font-weight: 650;
+	font-size: 16.5px;
+	font-weight: 700;
 	letter-spacing: -0.01em;
 	color: var(--xoom-text);
 }
 
 .xoom-panel__subtitle {
-	margin: 4px 0 0;
+	margin: 3px 0 0;
 	font-size: 13px;
 	color: var(--xoom-muted);
 }
 
-/* ------------------------------------------------------- Upgrade promo */
+/* ------------------------------------------------------------ Upgrade promo */
 
 .xoom-promo {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	flex-wrap: wrap;
-	gap: 18px;
-	background: linear-gradient(135deg, #f7f5ff 0%, #ffffff 62%);
-	border-color: #ddd8ff;
+	gap: 16px;
+	background: var(--xoom-primary-tint);
+	border-color: #e3e0ff;
+	box-shadow: none;
 }
 
 .xoom-promo__text {
-	max-width: 60ch;
+	flex: 1 1 380px;
+}
+
+.xoom-promo__cta {
+	margin-left: auto;
+}
+
+/* --------------------------------------------------------------- Badges */
+
+.xoom-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 3px 10px;
+	border-radius: 999px;
+	font-size: 10.5px;
+	font-weight: 700;
+	letter-spacing: 0.07em;
+	line-height: 1.7;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.xoom-badge--soft {
+	background: var(--xoom-primary-soft);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-badge--pro {
+	background: linear-gradient(135deg, #ffe6b0, #ffcf76);
+	color: #7a4b00;
+	box-shadow: inset 0 0 0 1px rgba(122, 75, 0, 0.12);
 }
 
 /* --------------------------------------------------------------- Toolbar */
+
+.xoom-toolbar-card {
+	margin-top: 20px;
+	padding: 16px 18px;
+	background: var(--xoom-surface);
+	border: 1px solid var(--xoom-border);
+	border-radius: var(--xoom-radius-lg);
+	box-shadow: var(--xoom-shadow);
+}
 
 .xoom-toolbar {
 	display: flex;
@@ -392,24 +626,23 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	margin: 18px 0 12px;
 }
 
 .xoom-toolbar__search {
 	position: relative;
-	flex: 1 1 260px;
-	max-width: 380px;
+	flex: 1 1 280px;
+	max-width: 420px;
 }
 
 .xoom-toolbar__search .dashicons {
 	position: absolute;
 	top: 50%;
-	left: 11px;
-	transform: translateY(-50%);
+	left: 12px;
 	width: 18px;
 	height: 18px;
 	font-size: 18px;
-	color: var(--xoom-muted);
+	color: var(--xoom-faint);
+	transform: translateY(-50%);
 	pointer-events: none;
 }
 
@@ -429,20 +662,20 @@
 	display: inline-flex;
 	gap: 2px;
 	padding: 3px;
-	background: #f1f2f7;
-	border-radius: var(--xoom-radius-sm);
+	background: #f1f2f8;
+	border-radius: 11px;
 }
 
 .xoom-segmented__btn {
 	border: 0;
 	background: transparent;
-	padding: 6px 12px;
-	border-radius: 7px;
+	padding: 7px 13px;
+	border-radius: 8px;
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--xoom-muted);
 	cursor: pointer;
-	transition: background 0.15s ease, color 0.15s ease;
+	transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .xoom-segmented__btn:hover {
@@ -451,8 +684,8 @@
 
 .xoom-segmented__btn.is-active {
 	background: var(--xoom-surface);
-	color: var(--xoom-text);
-	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.14);
+	color: var(--xoom-primary-dark);
+	box-shadow: var(--xoom-shadow-xs);
 }
 
 .xoom-filters {
@@ -461,7 +694,8 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	padding-top: 12px;
+	margin-top: 14px;
+	padding-top: 14px;
 	border-top: 1px solid var(--xoom-border);
 }
 
@@ -498,24 +732,24 @@
 .xoom-results {
 	margin: 0;
 	font-size: 12.5px;
-	color: var(--xoom-muted);
+	color: var(--xoom-faint);
 }
 
 /* ------------------------------------------------------------ Components */
 
 .xoom-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
-	gap: 16px;
-	margin-top: 16px;
+	grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+	gap: 18px;
+	margin-top: 20px;
 }
 
 .xoom-card {
 	background: var(--xoom-surface);
 	border: 1px solid var(--xoom-border);
 	border-radius: var(--xoom-radius);
-	padding: 16px;
-	transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+	box-shadow: var(--xoom-shadow-xs);
+	transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
 .xoom-card:hover {
@@ -527,11 +761,13 @@
 .xoom-component {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 12px;
+	height: 100%;
+	padding: 18px;
 }
 
 .xoom-component.is-disabled {
-	background: #fcfcfe;
+	background: var(--xoom-surface-2);
 }
 
 .xoom-component.is-hidden {
@@ -547,18 +783,24 @@
 .xoom-component__icon {
 	display: grid;
 	place-items: center;
-	width: 38px;
-	height: 38px;
-	border-radius: 11px;
+	width: 42px;
+	height: 42px;
+	flex: 0 0 auto;
+	border-radius: 12px;
 	background: var(--xoom-primary-soft);
 	color: var(--xoom-primary-dark);
-	flex: 0 0 auto;
+	transition: background 0.18s ease, color 0.18s ease;
 }
 
 .xoom-component__icon .dashicons {
 	width: 20px;
 	height: 20px;
 	font-size: 20px;
+}
+
+.xoom-component.is-disabled .xoom-component__icon {
+	background: #eff0f5;
+	color: var(--xoom-faint);
 }
 
 .xoom-component__top .xoom-switch {
@@ -569,13 +811,14 @@
 	margin: 0;
 	font-size: 15px;
 	font-weight: 600;
+	letter-spacing: -0.01em;
 	color: var(--xoom-text);
 }
 
 .xoom-component__desc {
 	margin: 0;
 	font-size: 13px;
-	line-height: 1.55;
+	line-height: 1.6;
 	color: var(--xoom-muted);
 }
 
@@ -586,6 +829,7 @@
 	flex-wrap: wrap;
 	gap: 8px;
 	margin-top: auto;
+	padding-top: 4px;
 }
 
 .xoom-chips {
@@ -598,35 +842,23 @@
 }
 
 .xoom-chip {
-	padding: 3px 9px;
+	padding: 4px 10px;
+	border: 1px solid var(--xoom-border);
 	border-radius: 999px;
-	background: #f2f3f8;
+	background: #f4f5fa;
 	font-size: 11px;
 	font-weight: 600;
-	letter-spacing: 0.04em;
+	letter-spacing: 0.03em;
 	text-transform: uppercase;
 	color: var(--xoom-muted);
 }
-
-.xoom-badge--pro {
-	padding: 3px 9px;
-	border-radius: 999px;
-	background: linear-gradient(135deg, #ffe6b0, #ffd37a);
-	color: #7a4b00;
-	font-size: 10px;
-	font-weight: 700;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-}
-
-
 
 .xoom-empty {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 10px;
-	padding: 48px 20px;
+	padding: 56px 20px;
 	text-align: center;
 	color: var(--xoom-muted);
 }
@@ -664,10 +896,10 @@
 .xoom-switch__track {
 	position: relative;
 	display: inline-block;
-	width: 42px;
-	height: 24px;
+	width: 44px;
+	height: 25px;
 	border-radius: 999px;
-	background: #d7dae4;
+	background: #d5d8e3;
 	transition: background 0.18s ease;
 }
 
@@ -675,20 +907,20 @@
 	position: absolute;
 	top: 3px;
 	left: 3px;
-	width: 18px;
-	height: 18px;
+	width: 19px;
+	height: 19px;
 	border-radius: 50%;
 	background: #ffffff;
-	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.3);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.32);
 	transition: transform 0.18s ease;
 }
 
 .xoom-switch__input:checked + .xoom-switch__track {
-	background: var(--xoom-success);
+	background: var(--xoom-primary);
 }
 
 .xoom-switch__input:checked + .xoom-switch__track .xoom-switch__thumb {
-	transform: translateX(18px);
+	transform: translateX(19px);
 }
 
 .xoom-switch__input:focus-visible + .xoom-switch__track {
@@ -707,22 +939,30 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 8px;
-	padding: 8px 16px;
+	gap: 7px;
+	padding: 9px 16px;
 	border: 1px solid transparent;
 	border-radius: var(--xoom-radius-sm);
 	font-size: 13px;
 	font-weight: 600;
 	line-height: 1.4;
 	text-decoration: none;
+	white-space: nowrap;
 	cursor: pointer;
-	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.xoom-btn .dashicons {
+	width: 17px;
+	height: 17px;
+	font-size: 17px;
 }
 
 .xoom-btn--primary {
 	background: var(--xoom-primary);
 	border-color: var(--xoom-primary);
 	color: #ffffff;
+	box-shadow: 0 1px 2px rgba(76, 58, 214, 0.3);
 }
 
 .xoom-btn--primary:hover {
@@ -738,6 +978,7 @@
 }
 
 .xoom-btn--ghost:hover {
+	background: #fafaff;
 	border-color: var(--xoom-primary);
 	color: var(--xoom-primary-dark);
 }
@@ -752,7 +993,7 @@
 
 .xoom-shell .xoom-input {
 	width: 100%;
-	padding: 9px 12px;
+	padding: 10px 13px;
 	border: 1px solid var(--xoom-border-strong);
 	border-radius: var(--xoom-radius-sm);
 	background: var(--xoom-surface);
@@ -762,36 +1003,43 @@
 	box-shadow: none;
 }
 
+.xoom-shell .xoom-input::placeholder {
+	color: var(--xoom-faint);
+}
+
 .xoom-shell .xoom-input:focus {
 	border-color: var(--xoom-primary);
-	box-shadow: 0 0 0 3px rgba(91, 75, 255, 0.14);
+	box-shadow: var(--xoom-ring);
 	outline: none;
 }
 
 .xoom-shell .xoom-input--search {
-	padding-left: 36px;
+	padding-left: 38px;
 }
 
 /* ------------------------------------------------------------------ Tabs */
 
 .xoom-tabs {
-	display: flex;
+	display: inline-flex;
 	flex-wrap: wrap;
 	gap: 4px;
-	margin: 0 0 4px;
-	border-bottom: 1px solid var(--xoom-border);
+	margin: 0 0 20px;
+	padding: 4px;
+	background: #f1f2f8;
+	border-radius: 12px;
 }
 
 .xoom-tab {
-	margin-bottom: -1px;
-	padding: 10px 14px;
+	margin: 0;
+	padding: 8px 16px;
 	border: 0;
-	border-bottom: 2px solid transparent;
+	border-radius: 9px;
 	background: transparent;
 	font-size: 13.5px;
 	font-weight: 600;
 	color: var(--xoom-muted);
 	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .xoom-tab:hover {
@@ -799,8 +1047,9 @@
 }
 
 .xoom-tab.is-active {
+	background: var(--xoom-surface);
 	color: var(--xoom-primary-dark);
-	border-bottom-color: var(--xoom-primary);
+	box-shadow: var(--xoom-shadow-xs);
 }
 
 .xoom-tabpanel[hidden] {
@@ -812,7 +1061,7 @@
 .xoom-settings-list {
 	display: flex;
 	flex-direction: column;
-	margin-top: 8px;
+	margin-top: 4px;
 }
 
 .xoom-setting {
@@ -820,8 +1069,15 @@
 	align-items: flex-start;
 	justify-content: space-between;
 	gap: 24px;
-	padding: 18px 0;
+	margin: 0 -12px;
+	padding: 18px 12px;
 	border-bottom: 1px solid var(--xoom-border);
+	border-radius: 10px;
+	transition: background 0.15s ease;
+}
+
+.xoom-setting:hover {
+	background: var(--xoom-primary-tint);
 }
 
 .xoom-setting:last-child {
@@ -860,7 +1116,7 @@
 
 .xoom-actions,
 .xoom-status-list {
-	margin: 0;
+	margin: 4px 0 0;
 	padding: 0;
 	list-style: none;
 }
@@ -868,20 +1124,46 @@
 .xoom-action {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
-	padding: 14px 0;
+	gap: 14px;
+	padding: 15px 0;
 	border-bottom: 1px solid var(--xoom-border);
 }
 
 .xoom-action:last-child {
 	border-bottom: 0;
+	padding-bottom: 0;
+}
+
+.xoom-action__icon {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	flex: 0 0 auto;
+	border-radius: 10px;
+}
+
+.xoom-action__icon .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+}
+
+.xoom-action__icon.is-on {
+	background: var(--xoom-success-soft);
+	color: #0b6b36;
+}
+
+.xoom-action__icon.is-off {
+	background: #f1f2f8;
+	color: var(--xoom-muted);
 }
 
 .xoom-action__text {
 	display: flex;
 	flex-direction: column;
 	gap: 2px;
+	margin-right: auto;
 }
 
 .xoom-action__text strong {
@@ -900,25 +1182,32 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	padding: 11px 0;
+	padding: 13px 0;
 	border-bottom: 1px solid var(--xoom-border);
-	font-size: 13px;
+	font-size: 13.5px;
 	color: var(--xoom-muted);
 }
 
 .xoom-status-list li:last-child {
 	border-bottom: 0;
+	padding-bottom: 0;
 }
 
 .xoom-status-list strong {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: 7px;
 	font-weight: 600;
 	color: var(--xoom-text);
 }
 
 /* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 1200px) {
+	.xoom-stats {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
 
 @media (max-width: 1100px) {
 	.xoom-columns {
@@ -926,9 +1215,37 @@
 	}
 }
 
+@media (max-width: 1024px) {
+	.xoom-topbar__inner {
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+
+	.xoom-nav {
+		order: 3;
+		flex-basis: 100%;
+		margin-left: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
+	.xoom-nav::-webkit-scrollbar {
+		display: none;
+	}
+
+	.xoom-topbar__status {
+		order: 2;
+	}
+}
+
 @media (max-width: 782px) {
-	.xoom-shell {
-		margin-right: 10px;
+	.xoom-topbar__inner {
+		padding: 10px 16px;
+	}
+
+	.xoom-container {
+		padding: 20px 16px 48px;
 	}
 
 	.xoom-hero {
@@ -936,17 +1253,19 @@
 	}
 
 	.xoom-hero__title {
-		font-size: 22px;
+		font-size: 23px;
 	}
 
-	.xoom-topbar {
-		gap: 12px;
+	.xoom-hero__desc {
+		font-size: 14px;
 	}
 
-	.xoom-topbar__status {
-		margin-left: 0;
-		order: 3;
-		width: 100%;
+	.xoom-panel {
+		padding: 20px;
+	}
+
+	.xoom-toolbar__search {
+		max-width: none;
 	}
 
 	.xoom-setting {
@@ -958,18 +1277,35 @@
 		width: 100%;
 	}
 
-	.xoom-grid {
-		grid-template-columns: 1fr;
-	}
-
-	.xoom-toolbar__search {
-		max-width: none;
-	}
-
 	.xoom-action {
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.xoom-action__text {
+		margin-right: 0;
+		flex: 1 1 calc(100% - 50px);
+	}
+
+	.xoom-action .xoom-btn {
+		margin-left: 50px;
+	}
+}
+
+@media (max-width: 640px) {
+	.xoom-stats {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.xoom-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.xoom-page-title {
+		font-size: 21px;
+	}
+
+	.xoom-nav__link {
+		padding: 8px 12px;
 	}
 }
 
