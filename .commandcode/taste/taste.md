@@ -7,6 +7,9 @@
 
 - Wants admin/dashboard UIs to feel like a high-quality commercial product: clean, modern, polished, fast, and intuitive. Confidence: 0.6
 - Expects interfaces to be responsive and accessible (a11y). Confidence: 0.55
+- Never wants native browser dialogs (`alert()`/`confirm()`/`prompt()`) in product UI — even `beforeunload` prompts are off-limits. Confirmable/destructive actions should use the product's own confirmation UI (an anchored confirmation popover or inline confirmation panel) styled to match the existing design system. Confidence: 0.8
+- Prefers destructive or bulk changes to be staged with an explicit confirm step (e.g. a sticky bottom action bar with Cancel / Save changes that previews the outcome), while routine single-item changes apply immediately with lightweight, non-blocking toast feedback rather than a dialog. Confidence: 0.7
+- Expects new UI to be built within the existing design system — reusing its CSS custom-property tokens, class-naming conventions and component patterns rather than introducing a new framework or one-off styles — with clean typography, subtle borders, rounded corners, proper spacing, and smooth but minimal transitions. Confidence: 0.65
 
 ## Architecture
 

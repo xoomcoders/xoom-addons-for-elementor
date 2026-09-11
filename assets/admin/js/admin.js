@@ -140,6 +140,470 @@
 		element.setAttribute( 'aria-busy', busy ? 'true' : 'false' );
 	}
 
+	/* -------------------------------------------------- Dialogs & pending */
+
+	var shell = document.querySelector( '.xoom-shell' );
+
+	/**
+	 * Fill the `%s` placeholder of a localised template.
+	 *
+	 * @param {string} template Template containing `%s`.
+	 * @param {string} value    Replacement value.
+	 * @return {string} Filled string.
+	 */
+	function fill( template, value ) {
+		return String( template ).replace( '%s', value );
+	}
+
+	/**
+	 * Fill the `%d` placeholder of a localised template.
+	 *
+	 * @param {string} template Template containing `%d`.
+	 * @param {number} value    Replacement value.
+	 * @return {string} Filled string.
+	 */
+	function fillCount( template, value ) {
+		return String( template ).replace( '%d', value );
+	}
+
+	/**
+	 * The singular noun for a component scope.
+	 *
+	 * @param {string} scope Component scope.
+	 * @return {string} Localised noun.
+	 */
+	function scopeNoun( scope ) {
+		return 'modules' === scope ? t( 'singularExtensions', 'Extension' ) : t( 'singularWidgets', 'Widget' );
+	}
+
+	/**
+	 * The plural noun for a component scope.
+	 *
+	 * @param {string} scope Component scope.
+	 * @return {string} Localised noun.
+	 */
+	function scopePlural( scope ) {
+		return 'modules' === scope ? t( 'nounExtensions', 'extensions' ) : t( 'nounWidgets', 'widgets' );
+	}
+
+	/**
+	 * Keep an anchored popover inside the viewport.
+	 *
+	 * @param {HTMLElement} layer  Full screen layer.
+	 * @param {HTMLElement} dialog Popover element.
+	 * @param {HTMLElement} anchor Element to sit next to, when any.
+	 */
+	function positionPopover( layer, dialog, anchor ) {
+		if ( ! anchor || ! anchor.getBoundingClientRect ) {
+			return;
+		}
+
+		var rect = anchor.getBoundingClientRect();
+		var box = dialog.getBoundingClientRect();
+		var gap = 10;
+		var pad = 12;
+		var top = rect.bottom + gap;
+		var left = rect.left + rect.width / 2 - box.width / 2;
+
+		if ( top + box.height > window.innerHeight - pad ) {
+			top = rect.top - box.height - gap;
+		}
+
+		top = Math.max( pad, Math.min( top, window.innerHeight - box.height - pad ) );
+		left = Math.max( pad, Math.min( left, window.innerWidth - box.width - pad ) );
+
+		dialog.style.top = top + 'px';
+		dialog.style.left = left + 'px';
+	}
+
+	/**
+	 * Open a confirmation popover and resolve with the user's choice.
+	 *
+	 * The dialog traps Tab between its own actions, confirms on Enter and
+	 * dismisses on Escape or a click on the backdrop. Focus returns to the
+	 * element that opened it once closed.
+	 *
+	 * @param {Object}      options          Dialog options.
+	 * @param {string}      options.title    Heading text.
+	 * @param {string}      [options.text]   Supporting copy.
+	 * @param {string}      [options.confirm] Confirm button label.
+	 * @param {string}      [options.cancel]  Cancel button label.
+	 * @param {string}      [options.tone]    `danger` or `primary`.
+	 * @param {HTMLElement} [options.anchor]  Element to anchor the popover to.
+	 * @return {Promise<boolean>} Whether the user confirmed.
+	 */
+	function confirmPopover( options ) {
+		options = options || {};
+
+		return new Promise( function ( resolve ) {
+			var danger = 'danger' === options.tone;
+			var layer = document.createElement( 'div' );
+			layer.className = 'xoom-popover-layer';
+
+			var dialog = document.createElement( 'div' );
+			dialog.className = 'xoom-popover' + ( options.anchor ? '' : ' is-centered' );
+			dialog.setAttribute( 'role', 'dialog' );
+			dialog.setAttribute( 'aria-modal', 'true' );
+			dialog.setAttribute( 'aria-labelledby', 'xoom-popover-title' );
+
+			var head = document.createElement( 'div' );
+			head.className = 'xoom-popover__head';
+
+			var icon = document.createElement( 'span' );
+			icon.className = 'xoom-popover__icon' + ( danger ? ' is-danger' : '' );
+			icon.setAttribute( 'aria-hidden', 'true' );
+			icon.innerHTML = '<span class="dashicons ' + ( danger ? 'dashicons-warning' : 'dashicons-info-outline' ) + '"></span>';
+			head.appendChild( icon );
+
+			var copy = document.createElement( 'div' );
+			copy.className = 'xoom-popover__copy';
+
+			var title = document.createElement( 'p' );
+			title.className = 'xoom-popover__title';
+			title.id = 'xoom-popover-title';
+			title.textContent = options.title || '';
+			copy.appendChild( title );
+
+			if ( options.text ) {
+				var text = document.createElement( 'p' );
+				text.className = 'xoom-popover__text';
+				text.id = 'xoom-popover-text';
+				text.textContent = options.text;
+				copy.appendChild( text );
+				dialog.setAttribute( 'aria-describedby', 'xoom-popover-text' );
+			}
+
+			head.appendChild( copy );
+			dialog.appendChild( head );
+
+			var actions = document.createElement( 'div' );
+			actions.className = 'xoom-popover__actions';
+
+			var cancel = document.createElement( 'button' );
+			cancel.type = 'button';
+			cancel.className = 'xoom-btn xoom-btn--ghost';
+			cancel.textContent = options.cancel || t( 'cancel', 'Cancel' );
+
+			var accept = document.createElement( 'button' );
+			accept.type = 'button';
+			accept.className = 'xoom-btn ' + ( danger ? 'xoom-btn--danger' : 'xoom-btn--primary' );
+			accept.textContent = options.confirm || t( 'confirmLabel', 'Confirm' );
+
+			actions.appendChild( cancel );
+			actions.appendChild( accept );
+			dialog.appendChild( actions );
+			layer.appendChild( dialog );
+			( shell || document.body ).appendChild( layer );
+
+			positionPopover( layer, dialog, options.anchor );
+
+			var previousFocus = document.activeElement;
+			accept.focus();
+
+			function reposition() {
+				positionPopover( layer, dialog, options.anchor );
+			}
+
+			function close( result ) {
+				window.removeEventListener( 'resize', reposition );
+				window.removeEventListener( 'scroll', reposition, true );
+				layer.removeEventListener( 'keydown', onKeydown );
+				layer.removeEventListener( 'mousedown', onBackdrop );
+				layer.remove();
+
+				if ( previousFocus && previousFocus.focus ) {
+					previousFocus.focus();
+				}
+
+				resolve( result );
+			}
+
+			function onBackdrop( event ) {
+				if ( event.target === layer ) {
+					close( false );
+				}
+			}
+
+			function onKeydown( event ) {
+				if ( 'Escape' === event.key ) {
+					event.stopPropagation();
+					close( false );
+					return;
+				}
+
+				if ( 'Tab' !== event.key ) {
+					return;
+				}
+
+				var items = [ cancel, accept ];
+				var index = items.indexOf( document.activeElement );
+				var next = event.shiftKey ? index - 1 : index + 1;
+
+				if ( next < 0 ) {
+					next = items.length - 1;
+				} else if ( next >= items.length ) {
+					next = 0;
+				}
+
+				event.preventDefault();
+				items[ next ].focus();
+			}
+
+			cancel.addEventListener( 'click', function () {
+				close( false );
+			} );
+
+			accept.addEventListener( 'click', function () {
+				close( true );
+			} );
+
+			layer.addEventListener( 'mousedown', onBackdrop );
+			layer.addEventListener( 'keydown', onKeydown );
+			window.addEventListener( 'resize', reposition );
+			window.addEventListener( 'scroll', reposition, true );
+		} );
+	}
+
+	var pendingBar = null;
+	var pendingState = null;
+
+	/**
+	 * Build the sticky pending-changes action bar.
+	 *
+	 * @return {HTMLElement} The bar element.
+	 */
+	function buildPendingBar() {
+		var bar = document.createElement( 'div' );
+		bar.className = 'xoom-pending';
+		bar.setAttribute( 'role', 'region' );
+		bar.setAttribute( 'aria-label', t( 'pendingRegion', 'Pending changes' ) );
+
+		var inner = document.createElement( 'div' );
+		inner.className = 'xoom-pending__inner';
+
+		var icon = document.createElement( 'span' );
+		icon.className = 'xoom-pending__icon';
+		icon.setAttribute( 'aria-hidden', 'true' );
+		icon.innerHTML = '<span class="dashicons dashicons-update-alt"></span>';
+
+		var text = document.createElement( 'div' );
+		text.className = 'xoom-pending__text';
+
+		var title = document.createElement( 'strong' );
+		title.className = 'xoom-pending__title';
+		title.setAttribute( 'data-xoom-pending-title', '' );
+
+		var desc = document.createElement( 'span' );
+		desc.className = 'xoom-pending__desc';
+		desc.setAttribute( 'data-xoom-pending-desc', '' );
+
+		text.appendChild( title );
+		text.appendChild( desc );
+
+		var actions = document.createElement( 'div' );
+		actions.className = 'xoom-pending__actions';
+
+		var cancel = document.createElement( 'button' );
+		cancel.type = 'button';
+		cancel.className = 'xoom-btn xoom-btn--ghost';
+		cancel.setAttribute( 'data-xoom-pending-cancel', '' );
+		cancel.textContent = t( 'cancel', 'Cancel' );
+
+		var save = document.createElement( 'button' );
+		save.type = 'button';
+		save.className = 'xoom-btn xoom-btn--primary';
+		save.setAttribute( 'data-xoom-pending-save', '' );
+		save.textContent = t( 'saveChanges', 'Save changes' );
+
+		actions.appendChild( cancel );
+		actions.appendChild( save );
+
+		inner.appendChild( icon );
+		inner.appendChild( text );
+		inner.appendChild( actions );
+		bar.appendChild( inner );
+
+		cancel.addEventListener( 'click', function () {
+			var button = pendingState ? pendingState.button : null;
+
+			cancelPending();
+
+			if ( button && button.focus ) {
+				button.focus();
+			}
+		} );
+
+		save.addEventListener( 'click', function () {
+			savePending( save );
+		} );
+
+		return bar;
+	}
+
+	/**
+	 * Reveal the pending bar and describe the staged change.
+	 *
+	 * @param {Object} state Pending state.
+	 */
+	function showPending( state ) {
+		if ( ! pendingBar ) {
+			pendingBar = buildPendingBar();
+			( shell || document.body ).appendChild( pendingBar );
+		}
+
+		var title = pendingBar.querySelector( '[data-xoom-pending-title]' );
+		var desc = pendingBar.querySelector( '[data-xoom-pending-desc]' );
+		var count = state.ids ? state.ids.length : 0;
+
+		if ( title ) {
+			if ( ! state.ids ) {
+				title.textContent = t( 'pendingAll', 'Apply to all components' );
+			} else if ( 1 === count ) {
+				title.textContent = t( 'pendingOne', '1 change pending' );
+			} else {
+				title.textContent = fillCount( t( 'pendingMany', '%d changes pending' ), count );
+			}
+		}
+
+		if ( desc ) {
+			desc.textContent = fill(
+				state.enabled ? t( 'pendingEnable', 'Enable all %s' ) : t( 'pendingDisable', 'Disable all %s' ),
+				scopePlural( state.scope )
+			);
+		}
+
+		pendingBar.hidden = false;
+
+		if ( shell ) {
+			shell.classList.add( 'has-pending' );
+		}
+
+		var save = pendingBar.querySelector( '[data-xoom-pending-save]' );
+
+		if ( save ) {
+			save.focus();
+		}
+	}
+
+	/**
+	 * Discard the staged change and restore the previewed cards.
+	 */
+	function cancelPending() {
+		if ( pendingState && pendingState.ids ) {
+			pendingState.ids.forEach( function ( id ) {
+				paintComponent( pendingState.scope, id, pendingState.previous[ id ] );
+			} );
+		}
+
+		pendingState = null;
+
+		hidePending();
+	}
+
+	/**
+	 * Hide the pending bar and release the reserved space.
+	 */
+	function hidePending() {
+		if ( pendingBar ) {
+			pendingBar.hidden = true;
+		}
+
+		if ( shell ) {
+			shell.classList.remove( 'has-pending' );
+		}
+	}
+
+	/**
+	 * Stage a set of changes for review in the pending bar.
+	 *
+	 * @param {string}      scope   Component scope.
+	 * @param {boolean}     enabled Target state.
+	 * @param {string[]|null} ids   Affected ids, or null for every component.
+	 * @param {HTMLElement} button  The button that started the action.
+	 */
+	function stageChanges( scope, enabled, ids, button ) {
+		cancelPending();
+
+		var previous = {};
+
+		if ( ids ) {
+			ids.forEach( function ( id ) {
+				previous[ id ] = ! enabled;
+				paintComponent( scope, id, enabled );
+			} );
+		}
+
+		pendingState = {
+			scope: scope,
+			enabled: enabled,
+			ids: ids,
+			previous: previous,
+			button: button,
+		};
+
+		showPending( pendingState );
+	}
+
+	/**
+	 * Persist the staged change.
+	 *
+	 * @param {HTMLElement} saveButton The bar's save button.
+	 */
+	function savePending( saveButton ) {
+		var state = pendingState;
+
+		if ( ! state ) {
+			return;
+		}
+
+		setBusy( saveButton, true );
+		notify( t( 'saving' ), 'busy' );
+
+		request( 'xoom_addons_bulk', { scope: state.scope, enabled: state.enabled, ids: state.ids || [] } )
+			.then( function ( data ) {
+				var button = state.button;
+
+				pendingState = null;
+				hidePending();
+
+				notify( t( 'saved', 'Changes saved.' ), 'success' );
+				applyCounts( data.scope, data.counts );
+
+				if ( state.ids ) {
+					state.ids.forEach( function ( id ) {
+						paintComponent( state.scope, id, state.enabled );
+					} );
+				}
+
+				applyFilters();
+
+				if ( button && button.focus ) {
+					button.focus();
+				}
+			} )
+			.catch( function ( error ) {
+				cancelPending();
+				notify( error.message, 'error' );
+			} )
+			.finally( function () {
+				setBusy( saveButton, false );
+			} );
+	}
+
+	document.addEventListener( 'keydown', function ( event ) {
+		if ( 'Escape' !== event.key || ! pendingState ) {
+			return;
+		}
+
+		var button = pendingState.button;
+
+		cancelPending();
+
+		if ( button && button.focus ) {
+			button.focus();
+		}
+	} );
+
 	/* ------------------------------------------------------------ Counters */
 
 	/**
@@ -227,6 +691,7 @@
 		var changes = pending[ scope ] || {};
 		var ids = Object.keys( changes );
 		var previous = {};
+		var message;
 
 		pending[ scope ] = {};
 
@@ -238,11 +703,19 @@
 			previous[ id ] = ! changes[ id ];
 		} );
 
+		if ( 1 < ids.length ) {
+			message = t( 'saved', 'Changes saved.' );
+		} else if ( changes[ ids[0] ] ) {
+			message = fill( t( 'enabledNoun', '%s enabled.' ), scopeNoun( scope ) );
+		} else {
+			message = fill( t( 'disabledNoun', '%s disabled.' ), scopeNoun( scope ) );
+		}
+
 		notify( t( 'saving' ), 'busy' );
 
 		request( 'xoom_addons_sync', { scope: scope, status: changes } )
 			.then( function ( data ) {
-				notify( t( 'saved' ), 'success' );
+				notify( message, 'success' );
 				applyCounts( data.scope, data.counts );
 			} )
 			.catch( function ( error ) {
@@ -295,40 +768,41 @@
 		return ids;
 	}
 
-	document.addEventListener( 'click', function ( event ) {
-		var button = event.target.closest( '[data-xoom-bulk]' );
+	/**
+	 * Whether a component is currently enabled.
+	 *
+	 * @param {string} scope Component scope.
+	 * @param {string} id    Component id.
+	 * @return {boolean} Current state.
+	 */
+	function isEnabled( scope, id ) {
+		var input = document.querySelector( '[data-xoom-toggle][data-scope="' + scope + '"][data-id="' + id + '"]' );
 
-		if ( ! button ) {
-			return;
-		}
+		return ! input || input.checked;
+	}
 
-		event.preventDefault();
-
-		var scope = button.getAttribute( 'data-scope' );
-		var enabled = 'enable' === button.getAttribute( 'data-xoom-bulk' );
-		var ids = visibleIds( scope );
-
-		if ( null === ids ) {
-			// No grid on this screen: the action applies to every component.
-			if ( ! window.confirm( t( 'confirmAll' ) ) ) {
-				return;
-			}
-		} else if ( ! ids.length ) {
-			notify( t( 'noResults' ), 'error' );
-			return;
-		} else if ( ids.length > 1 && ! window.confirm( t( 'confirmAll' ) ) ) {
-			return;
-		}
+	/**
+	 * Apply a bulk change straight away, without staging.
+	 *
+	 * @param {string}      scope   Component scope.
+	 * @param {boolean}     enabled Target state.
+	 * @param {string[]|null} ids   Affected ids, or null for every component.
+	 * @param {HTMLElement} button  The button that started the action.
+	 */
+	function applyBulk( scope, enabled, ids, button ) {
+		var message = enabled
+			? fill( t( 'enabledNoun', '%s enabled.' ), scopeNoun( scope ) )
+			: fill( t( 'disabledNoun', '%s disabled.' ), scopeNoun( scope ) );
 
 		setBusy( button, true );
 		notify( t( 'saving' ), 'busy' );
 
 		request( 'xoom_addons_bulk', { scope: scope, enabled: enabled, ids: ids || [] } )
 			.then( function ( data ) {
-				notify( t( 'saved' ), 'success' );
+				notify( message, 'success' );
 				applyCounts( data.scope, data.counts );
 
-				if ( null !== ids ) {
+				if ( ids ) {
 					ids.forEach( function ( id ) {
 						paintComponent( scope, id, enabled );
 					} );
@@ -342,6 +816,51 @@
 			.finally( function () {
 				setBusy( button, false );
 			} );
+	}
+
+	document.addEventListener( 'click', function ( event ) {
+		var button = event.target.closest( '[data-xoom-bulk]' );
+
+		if ( ! button ) {
+			return;
+		}
+
+		event.preventDefault();
+
+		var scope = button.getAttribute( 'data-scope' );
+		var enabled = 'enable' === button.getAttribute( 'data-xoom-bulk' );
+		var visible = visibleIds( scope );
+		var changed = null;
+
+		if ( visible && ! visible.length ) {
+			notify( t( 'noResults' ), 'error' );
+			return;
+		}
+
+		if ( visible ) {
+			changed = visible.filter( function ( id ) {
+				return isEnabled( scope, id ) !== enabled;
+			} );
+		}
+
+		if ( changed && ! changed.length ) {
+			notify(
+				enabled
+					? t( 'alreadyEnabled', 'Everything is already enabled.' )
+					: t( 'alreadyDisabled', 'Everything is already disabled.' ),
+				'success'
+			);
+			return;
+		}
+
+		if ( changed && 1 === changed.length ) {
+			applyBulk( scope, enabled, changed, button );
+			return;
+		}
+
+		// Several components change at once (or the whole catalog): stage the
+		// change and let the pending bar confirm it.
+		stageChanges( scope, enabled, changed, button );
 	} );
 
 	/* ------------------------------------------------------------ Filters */
@@ -566,26 +1085,34 @@
 
 		event.preventDefault();
 
-		if ( ! window.confirm( t( 'resetConfirm' ) ) ) {
-			return;
-		}
-
 		var group = button.getAttribute( 'data-group' );
 
-		setBusy( button, true );
-		notify( t( 'saving' ), 'busy' );
+		confirmPopover( {
+			title: t( 'restoreTitle', 'Restore defaults?' ),
+			text: t( 'restoreText', 'These settings will be reset to their default values. This cannot be undone.' ),
+			confirm: t( 'restoreCta', 'Restore defaults' ),
+			tone: 'danger',
+			anchor: button,
+		} ).then( function ( confirmed ) {
+			if ( ! confirmed ) {
+				return;
+			}
 
-		request( 'xoom_addons_reset_group', { group: group } )
-			.then( function ( data ) {
-				notify( data.message, 'success' );
-				syncFields( button.closest( '.xoom-tabpanel' ).querySelector( '[data-xoom-settings-form]' ), data.values );
-			} )
-			.catch( function ( error ) {
-				notify( error.message, 'error' );
-			} )
-			.finally( function () {
-				setBusy( button, false );
-			} );
+			setBusy( button, true );
+			notify( t( 'saving' ), 'busy' );
+
+			request( 'xoom_addons_reset_group', { group: group } )
+				.then( function ( data ) {
+					notify( data.message, 'success' );
+					syncFields( button.closest( '.xoom-tabpanel' ).querySelector( '[data-xoom-settings-form]' ), data.values );
+				} )
+				.catch( function ( error ) {
+					notify( error.message, 'error' );
+				} )
+				.finally( function () {
+					setBusy( button, false );
+				} );
+		} );
 	} );
 
 	/* --------------------------------------------------------------- Tabs */

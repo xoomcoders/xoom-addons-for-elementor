@@ -983,6 +983,19 @@ body.admin-bar .xoom-topbar {
 	color: var(--xoom-primary-dark);
 }
 
+.xoom-btn--danger {
+	background: var(--xoom-danger);
+	border-color: var(--xoom-danger);
+	color: #ffffff;
+	box-shadow: 0 1px 2px rgba(214, 54, 56, 0.3);
+}
+
+.xoom-btn--danger:hover {
+	background: #b32d2e;
+	border-color: #b32d2e;
+	color: #ffffff;
+}
+
 .xoom-btn.is-busy,
 .xoom-btn[disabled] {
 	opacity: 0.6;
@@ -1201,6 +1214,202 @@ body.admin-bar .xoom-topbar {
 	color: var(--xoom-text);
 }
 
+/* -------------------------------------------------- Confirm popover */
+
+.xoom-popover-layer {
+	position: fixed;
+	inset: 0;
+	z-index: 1200;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px;
+	background: rgba(23, 26, 43, 0.16);
+	animation: xoom-fade-in 0.14s ease;
+}
+
+.xoom-popover {
+	position: absolute;
+	width: min(360px, calc(100vw - 24px));
+	padding: 18px;
+	background: var(--xoom-surface);
+	border: 1px solid var(--xoom-border);
+	border-radius: var(--xoom-radius);
+	box-shadow: var(--xoom-shadow-hover);
+	animation: xoom-pop 0.16s ease;
+}
+
+.xoom-popover.is-centered {
+	position: relative;
+}
+
+.xoom-popover__head {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.xoom-popover__icon {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	flex: 0 0 auto;
+	border-radius: 10px;
+	background: var(--xoom-primary-soft);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-popover__icon.is-danger {
+	background: var(--xoom-danger-soft);
+	color: var(--xoom-danger);
+}
+
+.xoom-popover__icon .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+}
+
+.xoom-popover__copy {
+	min-width: 0;
+}
+
+.xoom-popover__title {
+	margin: 0;
+	font-size: 14.5px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--xoom-text);
+}
+
+.xoom-popover__text {
+	margin: 4px 0 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--xoom-muted);
+}
+
+.xoom-popover__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 18px;
+}
+
+/* ------------------------------------------------------ Pending bar */
+
+.xoom-pending {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1100;
+	display: flex;
+	justify-content: center;
+	padding: 0 16px calc(16px + env(safe-area-inset-bottom, 0px));
+	pointer-events: none;
+}
+
+.xoom-pending[hidden] {
+	display: none;
+}
+
+.xoom-pending__inner {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	width: 100%;
+	max-width: 780px;
+	padding: 14px 16px;
+	background: var(--xoom-surface);
+	border: 1px solid var(--xoom-border-strong);
+	border-radius: var(--xoom-radius);
+	box-shadow: var(--xoom-shadow-hover);
+	pointer-events: auto;
+	animation: xoom-rise 0.18s ease;
+}
+
+.xoom-pending__icon {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	flex: 0 0 auto;
+	border-radius: 10px;
+	background: var(--xoom-primary-soft);
+	color: var(--xoom-primary-dark);
+}
+
+.xoom-pending__icon .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+}
+
+.xoom-pending__text {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	min-width: 0;
+	margin-right: auto;
+}
+
+.xoom-pending__title {
+	font-size: 13.5px;
+	font-weight: 700;
+	color: var(--xoom-text);
+}
+
+.xoom-pending__desc {
+	font-size: 12.5px;
+	color: var(--xoom-muted);
+}
+
+.xoom-pending__actions {
+	display: flex;
+	flex: 0 0 auto;
+	gap: 8px;
+}
+
+.xoom-shell.has-pending .xoom-container {
+	padding-bottom: 148px;
+}
+
+@keyframes xoom-fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes xoom-pop {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes xoom-rise {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 /* ------------------------------------------------------------ Responsive */
 
 @media (max-width: 1200px) {
@@ -1306,6 +1515,23 @@ body.admin-bar .xoom-topbar {
 
 	.xoom-nav__link {
 		padding: 8px 12px;
+	}
+
+	.xoom-pending__inner {
+		flex-wrap: wrap;
+	}
+
+	.xoom-pending__text {
+		flex: 1 1 calc(100% - 50px);
+	}
+
+	.xoom-pending__actions {
+		width: 100%;
+		justify-content: flex-end;
+	}
+
+	.xoom-popover__actions .xoom-btn {
+		flex: 1 1 auto;
 	}
 }
 

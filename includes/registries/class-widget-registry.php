@@ -88,6 +88,15 @@ class Widget_Registry {
 				'class'       => 'Xoom_Addons\\Widgets\\Counter\\Widget_Counter',
 				'file'        => 'widgets/counter/class-widget-counter.php',
 			),
+			'feature-box'           => array(
+				'title'       => __('Feature Box', 'xoom-addons-for-elementor'),
+				'description' => __('Pair an icon with a title and description in flexible layouts.', 'xoom-addons-for-elementor'),
+				'categories'  => array('basic', 'content'),
+				'keywords'    => array('feature', 'icon', 'box'),
+				'icon'        => 'dashicons-info',
+				'class'       => 'Xoom_Addons\\Widgets\Feature_Box\\Widget_Feature_Box',
+				'file'        => 'widgets/feature-box/class-widget-feature-box.php',
+			),
 		);
 	}
 
