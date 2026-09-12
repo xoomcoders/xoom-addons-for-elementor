@@ -1,1 +1,224 @@
-.xoom-heading-wrap{margin:0}.xoom-heading{margin:0;line-height:1.25}.xoom-heading__link{color:inherit;text-decoration:none}.xoom-heading__link:hover,.xoom-heading__link:focus{color:inherit;text-decoration:underline}.xoom-heading__highlight{color:#5b4bff}.xoom-heading__highlight::before{content:" "}.xoom-button-wrap{display:block}.xoom-button{display:inline-flex;align-items:center;justify-content:center;gap:.55em;padding:.75em 1.5em;border:0;border-radius:8px;background-color:#5b4bff;color:#fff;font-weight:600;line-height:1.2;text-align:center;text-decoration:none;cursor:pointer;transition:background-color .18s ease,color .18s ease,border-color .18s ease}.xoom-button:hover,.xoom-button:focus{background-color:#4536d9;color:#fff}.xoom-button--sm{padding:.55em 1.15em;font-size:.875em}.xoom-button--lg{padding:1em 2em;font-size:1.125em}.xoom-button--full{display:flex;width:100%}.xoom-button__icon{display:inline-flex;align-items:center;line-height:1}.xoom-button__icon svg{width:1em;height:1em;fill:currentColor}.xoom-icon-box{display:block}.xoom-icon-box__icon{display:inline-flex;align-items:center;justify-content:center;line-height:1}.xoom-icon-box__icon svg{width:1em;height:1em;fill:currentColor}.xoom-icon-box__content{display:block}.xoom-icon-box--top .xoom-icon-box__content{margin-top:.75em}.xoom-icon-box--left,.xoom-icon-box--right{display:flex;align-items:flex-start;gap:1em}.xoom-icon-box--right{flex-direction:row-reverse}.xoom-icon-box--left .xoom-icon-box__content,.xoom-icon-box--right .xoom-icon-box__content{margin-top:0;flex:1 1 auto;min-width:0}.xoom-icon-box__title{margin:0 0 .4em;font-size:1.25em;line-height:1.3}.xoom-icon-box__title a{color:inherit;text-decoration:none}.xoom-icon-box__title a:hover,.xoom-icon-box__title a:focus{text-decoration:underline}.xoom-icon-box__desc{margin:0;line-height:1.65}.xoom-info-list{margin:0;padding:0;list-style:none}.xoom-info-list__item{display:flex;align-items:flex-start;gap:.6em}.xoom-info-list__icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;line-height:1}.xoom-info-list__icon svg{width:1em;height:1em;fill:currentColor}.xoom-info-list__link{color:inherit;text-decoration:none}.xoom-info-list__link:hover .xoom-info-list__text,.xoom-info-list__link:focus .xoom-info-list__text{text-decoration:underline}.xoom-counter{display:block}.xoom-counter__value{display:flex;align-items:baseline;justify-content:inherit;gap:.05em;font-size:2.5em;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}.xoom-counter__prefix,.xoom-counter__suffix{font-size:.6em}.xoom-counter__title{margin:.35em 0 0;line-height:1.4}
+@charset "UTF-8";
+/**
+ * Xoom Addons — shared frontend widget styles.
+ *
+ * Deliberately minimal and inheritable: typography, colors and spacing are
+ * driven by the Elementor controls so themes keep the final word.
+ */
+/* ------------------------------------------------------------- Heading */
+.xcxa-heading-wrap {
+  margin: 0;
+}
+
+.xcxa-heading {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.xcxa-heading__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.xcxa-heading__link:hover,
+.xcxa-heading__link:focus {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.xcxa-heading__highlight-after {
+  color: #5b4bff;
+}
+.xcxa-heading__highlight-before {
+  color: #ff4bcc;
+}
+
+.xcxa-heading__highlight::before {
+  content: " ";
+}
+
+/* -------------------------------------------------------------- Button */
+.xcxa-button-wrap {
+  display: block;
+}
+
+.xcxa-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  padding: 0.75em 1.5em;
+  border: 0;
+  border-radius: 8px;
+  background-color: #5b4bff;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.xcxa-button:hover,
+.xcxa-button:focus {
+  background-color: #4536d9;
+  color: #ffffff;
+}
+
+.xcxa-button--sm {
+  padding: 0.55em 1.15em;
+  font-size: 0.875em;
+}
+
+.xcxa-button--lg {
+  padding: 1em 2em;
+  font-size: 1.125em;
+}
+
+.xcxa-button--full {
+  display: flex;
+  width: 100%;
+}
+
+.xcxa-button__icon {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.xcxa-button__icon svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+/* ------------------------------------------------------------ Icon Box */
+.xcxa-icon-box {
+  display: block;
+}
+
+.xcxa-icon-box__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.xcxa-icon-box__icon svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+.xcxa-icon-box__content {
+  display: block;
+}
+
+.xcxa-icon-box--top .xcxa-icon-box__content {
+  margin-top: 0.75em;
+}
+
+.xcxa-icon-box--left,
+.xcxa-icon-box--right {
+  display: flex;
+  align-items: flex-start;
+  gap: 1em;
+}
+
+.xcxa-icon-box--right {
+  flex-direction: row-reverse;
+}
+
+.xcxa-icon-box--left .xcxa-icon-box__content,
+.xcxa-icon-box--right .xcxa-icon-box__content {
+  margin-top: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.xcxa-icon-box__title {
+  margin: 0 0 0.4em;
+  font-size: 1.25em;
+  line-height: 1.3;
+}
+
+.xcxa-icon-box__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.xcxa-icon-box__title a:hover,
+.xcxa-icon-box__title a:focus {
+  text-decoration: underline;
+}
+
+.xcxa-icon-box__desc {
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ----------------------------------------------------------- Info List */
+.xcxa-info-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xcxa-info-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6em;
+}
+
+.xcxa-info-list__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  line-height: 1;
+}
+
+.xcxa-info-list__icon svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+.xcxa-info-list__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.xcxa-info-list__link:hover .xcxa-info-list__text,
+.xcxa-info-list__link:focus .xcxa-info-list__text {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------- Counter */
+.xcxa-counter {
+  display: block;
+}
+
+.xcxa-counter__value {
+  display: flex;
+  align-items: baseline;
+  justify-content: inherit;
+  gap: 0.05em;
+  font-size: 2.5em;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.xcxa-counter__prefix,
+.xcxa-counter__suffix {
+  font-size: 0.6em;
+}
+
+.xcxa-counter__title {
+  margin: 0.35em 0 0;
+  line-height: 1.4;
+}
+
+/*# sourceMappingURL=widgets.css.map */
