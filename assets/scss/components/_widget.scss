@@ -1,0 +1,224 @@
+/**
+ * Xoom Addons — shared frontend widget styles.
+ *
+ * Deliberately minimal and inheritable: typography, colors and spacing are
+ * driven by the Elementor controls so themes keep the final word.
+ */
+
+/* ------------------------------------------------------------- Heading */
+
+.xoom-heading-wrap {
+    margin: 0;
+}
+
+.xoom-heading {
+    margin: 0;
+    line-height: 1.25;
+}
+
+.xoom-heading__link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.xoom-heading__link:hover,
+.xoom-heading__link:focus {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.xoom-heading__highlight {
+    color: #5b4bff;
+}
+
+.xoom-heading__highlight::before {
+    content: " ";
+}
+
+/* -------------------------------------------------------------- Button */
+
+.xoom-button-wrap {
+    display: block;
+}
+
+.xoom-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
+    padding: 0.75em 1.5em;
+    border: 0;
+    border-radius: 8px;
+    background-color: #5b4bff;
+    color: #ffffff;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.xoom-button:hover,
+.xoom-button:focus {
+    background-color: #4536d9;
+    color: #ffffff;
+}
+
+.xoom-button--sm {
+    padding: 0.55em 1.15em;
+    font-size: 0.875em;
+}
+
+.xoom-button--lg {
+    padding: 1em 2em;
+    font-size: 1.125em;
+}
+
+.xoom-button--full {
+    display: flex;
+    width: 100%;
+}
+
+.xoom-button__icon {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.xoom-button__icon svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
+/* ------------------------------------------------------------ Icon Box */
+
+.xoom-icon-box {
+    display: block;
+}
+
+.xoom-icon-box__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.xoom-icon-box__icon svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
+.xoom-icon-box__content {
+    display: block;
+}
+
+.xoom-icon-box--top .xoom-icon-box__content {
+    margin-top: 0.75em;
+}
+
+.xoom-icon-box--left,
+.xoom-icon-box--right {
+    display: flex;
+    align-items: flex-start;
+    gap: 1em;
+}
+
+.xoom-icon-box--right {
+    flex-direction: row-reverse;
+}
+
+.xoom-icon-box--left .xoom-icon-box__content,
+.xoom-icon-box--right .xoom-icon-box__content {
+    margin-top: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.xoom-icon-box__title {
+    margin: 0 0 0.4em;
+    font-size: 1.25em;
+    line-height: 1.3;
+}
+
+.xoom-icon-box__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.xoom-icon-box__title a:hover,
+.xoom-icon-box__title a:focus {
+    text-decoration: underline;
+}
+
+.xoom-icon-box__desc {
+    margin: 0;
+    line-height: 1.65;
+}
+
+/* ----------------------------------------------------------- Info List */
+
+.xoom-info-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.xoom-info-list__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6em;
+}
+
+.xoom-info-list__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    line-height: 1;
+}
+
+.xoom-info-list__icon svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
+.xoom-info-list__link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.xoom-info-list__link:hover .xoom-info-list__text,
+.xoom-info-list__link:focus .xoom-info-list__text {
+    text-decoration: underline;
+}
+
+/* ------------------------------------------------------------- Counter */
+
+.xoom-counter {
+    display: block;
+}
+
+.xoom-counter__value {
+    display: flex;
+    align-items: baseline;
+    justify-content: inherit;
+    gap: 0.05em;
+    font-size: 2.5em;
+    font-weight: 700;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.xoom-counter__prefix,
+.xoom-counter__suffix {
+    font-size: 0.6em;
+}
+
+.xoom-counter__title {
+    margin: 0.35em 0 0;
+    line-height: 1.4;
+}

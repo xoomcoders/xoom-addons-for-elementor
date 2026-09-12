@@ -1,0 +1,14 @@
+{
+    "name": "xoom-addons-for-elementor",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Build tooling for the Xoom Addons for Elementor WordPress plugin.",
+    "scripts": {
+        "dev": "sass --watch assets/scss:assets/css",
+        "build": "sass assets/scss:assets/css --style=compressed --no-source-map && bash build-zip.sh"
+    },
+    "devDependencies": {
+        "dir-archiver": "^2.2.0",
+        "sass": "^1.93.2"
+    }
+}

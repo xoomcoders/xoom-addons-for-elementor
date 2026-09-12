@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+/dist/
+
+# Sass build output
+.sass-cache/
+*.css.map
+*.scss.map
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment / local config
+.env
+.env.*
+!.env.example
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.sublime-workspace
