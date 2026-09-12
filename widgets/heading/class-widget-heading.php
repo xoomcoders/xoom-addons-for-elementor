@@ -8,10 +8,12 @@
 
 namespace Xoom_Addons\Widgets\Heading;
 
+
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
 use Xoom_Addons\Abstracts\Base_Widget;
+use Xoom_Addons\Helpers\Controls;
 
 defined('ABSPATH') || exit;
 
@@ -62,6 +64,28 @@ class Widget_Heading extends Base_Widget {
 	 * @return void
 	 */
 	protected function register_controls() {
+
+		$this->start_controls_section(
+			'layout_section',
+			[
+				'label' => __('Layout', 'xoom-addons-for-elementor'),
+			]
+		);
+
+		$this->add_control(
+			'layout_type',
+			[
+				'label'   => __('Layout', 'xoom-addons-for-elementor'),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'one',
+				'options' => [
+					'one' => __('Style One', 'xoom-addons-for-elementor'),
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
 		$this->start_controls_section(
 			'section_content',
 			[
@@ -164,14 +188,28 @@ class Widget_Heading extends Base_Widget {
 		$this->end_controls_section();
 
 		$this->start_controls_section(
-			'section_style',
+			'title_style',
 			[
-				'label' => __('Style', 'xoom-addons-for-elementor'),
+				'label' => __('Title', 'xoom-addons-for-elementor'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
+		Controls::general_style($this, __('Title', 'xoom-addons-for-elementor'), '{{WRAPPER}} .xoom-heading', 'one');
+
+
+		$this->end_controls_section();
 		
+		$this->start_controls_section(
+			'highligh_style',
+			[
+				'label' => __('Highlight', 'xoom-addons-for-elementor'),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		Controls::general_style($this, __('Highlight Before', 'xoom-addons-for-elementor'), '{{WRAPPER}} .xcxa-heading__highlight-before', 'one');
+		Controls::general_style($this, __('Highlight After', 'xoom-addons-for-elementor'), '{{WRAPPER}} .xcxa-heading__highlight-after', 'one');
 
 		$this->end_controls_section();
 	}

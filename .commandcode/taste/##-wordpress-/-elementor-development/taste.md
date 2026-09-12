@@ -1,5 +1,7 @@
 # ## WordPress / Elementor Development
 - For WordPress plugin work, expects strict adherence to WordPress coding standards, security best practices (nonces, capability checks, input sanitization, output escaping), and Elementor conventions. Confidence: 0.65
+- Explicitly wants plugin code to be "WordPress.org friendly" / pass WP.org plugin review: text domain must match the plugin slug exactly (no stray domains like `xoom` / `xoomcare-core`), no global or conditionally-declared functions or global-namespace pollution (use prefixed, namespaced classes), never pass dynamic strings to translation functions (`__( $label, … )`), and use proper output escaping plus WPCS formatting (`array()` syntax, docblocks, direct-access guard `defined( 'ABSPATH' ) || exit;`). Confidence: 0.6
+- Prefers shared, reusable helpers over copy-pasted code — asks where a utility "best" belongs so it can be reused across widgets/modules instead of duplicating it per file. Confidence: 0.5
 - Expects plugin frontend assets to be loaded only when actually needed — CSS/JS should be registered conditionally and never enqueued on pages where the relevant widget/module isn't used. Confidence: 0.6
 - Wants admin/dashboard UIs to feel like a high-quality commercial product: clean, modern, polished, fast, and intuitive. Confidence: 0.6
 - Expects interfaces to be responsive and accessible (a11y). Confidence: 0.55
